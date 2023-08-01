@@ -1,46 +1,16 @@
-# Getting Started with Create React App
+# React State Management Benchmark
+This small benchmark application is created to compare 3 state management libraries for React 
+1. Recoil
+1. Redux
+1. Zustand
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Test scenario
+1. Use chrome developer to check heap memory usage (click snapshot record)
+1. Click on "Create" button will add 10000 objects to the state manager.
+1. Click "Delete All" to call state manager to deallocate / reset the state.
+1. Repeat step 1. Then, compare the memory usage
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Observation (1 Aug 2023)
+1. Recoil suffers from memory leaks on both atom and atomFamily implementation. Changes in atom's value results in reallocation of memory. New block of memory is used anytime when the state is update.
+1. Redux doesn't release memory immediately but after few seconds memory usages get back to original level. When running Create object for 100 times, it shows a small sign of leakage.
+1. Zustand doesn't leak at all in any moment but **explicit delete obj[key]** is needed to make delete all work. No leakage even when running 100 times.

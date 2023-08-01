@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Provider } from "react-redux";
+import { RecoilRoot } from "recoil";
+import "./App.css";
+import { HelloReact } from "./HelloReact";
+import { HelloRecoilAtom } from "./HelloRecoilAtom";
+import { HelloRecoilFamily } from "./HelloRecoilFamily";
+import { HelloRedux } from "./HelloRedux";
+import { HelloZustand } from "./HelloZustand";
+import store from "./redux/store";
 
 function App() {
+  const [mount, setMount] = useState(true);
+  const unmountRecoil = () => {
+    setMount(!mount);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>State Management Benchmark</h1>
+      {mount && (
+        <>
+          <RecoilRoot>
+            <HelloRecoilFamily />
+            <hr />
+            <HelloRecoilAtom />
+          </RecoilRoot>
+          <hr />
+          <Provider store={store}>
+            <HelloRedux />
+          </Provider>
+          <hr />
+          <HelloZustand />
+          <hr />
+          <HelloReact />
+        </>
+      )}
+      <hr />
+      <button onClick={unmountRecoil}>Unmount State</button>
     </div>
   );
 }
