@@ -1,5 +1,5 @@
 import { atom, useRecoilCallback, useResetRecoilState } from "recoil";
-import { ShapesDict } from "./type";
+import { ShapeType, ShapesDict } from "../type";
 
 const shapesAtom = atom<ShapesDict>({
   key: "shapes",
@@ -20,6 +20,7 @@ export const HelloRecoilAtom = () => {
           shapes[i.toString()] = {
             id: i.toString(),
             value: (Math.random() * 100000).toFixed(0),
+            type: ShapeType.A,
           };
         }
         set(shapesAtom, shapes);
@@ -43,7 +44,7 @@ export const HelloRecoilAtom = () => {
   };
 
   return (
-    <>
+    <div className="Border">
       Recoil Atom
       <br />
       <button onClick={createManyShapes}>Create {NUM_SHAPE} shapes</button>
@@ -56,6 +57,6 @@ export const HelloRecoilAtom = () => {
       <br />
       <button onClick={xCreateManyShapes}>Many creates</button>
       <br />
-    </>
+    </div>
   );
 };

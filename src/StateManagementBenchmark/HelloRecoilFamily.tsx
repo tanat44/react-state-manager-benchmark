@@ -1,11 +1,12 @@
 import { atomFamily, useRecoilCallback } from "recoil";
-import { Shape } from "./type";
+import { Shape, ShapeType } from "../type";
 
 const shapeAtom = atomFamily<Shape, number>({
   key: "shape",
   default: {
     id: "defaultId",
     value: "defaultValue",
+    type: ShapeType.A,
   },
 });
 
@@ -17,6 +18,7 @@ export const HelloRecoilFamily = () => {
       set(shapeAtom(i), {
         id: i.toString(),
         value: (Math.random() * 100000).toFixed(0),
+        type: ShapeType.A,
       });
     }
   });
@@ -39,8 +41,8 @@ export const HelloRecoilFamily = () => {
   };
 
   return (
-    <>
-      Recoil Family
+    <div className="Border">
+      Recoil AtomFamily
       <br />
       <button onClick={createManyShapes}>Create {NUM_SHAPE} shapes</button>
       <br />
@@ -50,6 +52,6 @@ export const HelloRecoilFamily = () => {
       <br />
       <button onClick={xCreateManyShapes}>Many creates</button>
       <br />
-    </>
+    </div>
   );
 };

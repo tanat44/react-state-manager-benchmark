@@ -1,10 +1,16 @@
-import { useState } from "react";
-import { Shape } from "./type";
+import { useDispatch, useStore } from "react-redux";
+import {
+  addShapes,
+  deleteAllShapes,
+  selectShapeById,
+} from "../redux/shapesSlice";
+import { Shape, ShapeType } from "../type";
 
 const NUM_SHAPE = 10000;
 
-export const HelloReact = () => {
-  const [shapes, setShapes] = useState<Shape[]>([]);
+export const HelloRedux = () => {
+  const dispatch = useDispatch();
+  const store = useStore();
 
   const createManyShapes = async () => {
     const temp: Shape[] = [];
@@ -12,17 +18,18 @@ export const HelloReact = () => {
       temp.push({
         id: i.toString(),
         value: (Math.random() * 100000).toFixed(0),
+        type: ShapeType.A,
       });
     }
-    setShapes(temp);
+    dispatch(addShapes(temp));
   };
 
   const deleteAll = async () => {
-    setShapes([]);
+    dispatch(deleteAllShapes());
   };
 
   const getShape = async (id: number) => {
-    console.log(shapes[id]);
+    console.log(selectShapeById(store.getState(), id.toString()));
   };
 
   const xCreateManyShapes = async () => {
@@ -33,8 +40,9 @@ export const HelloReact = () => {
   };
 
   return (
-    <>
-      REACT STATE <br />
+    <div className="Border">
+      {/* <Counter /> */}
+      Redux <br />
       <button onClick={createManyShapes}>Create {NUM_SHAPE} shapes</button>
       <br />
       <button onClick={deleteAll}>Delete All</button>
@@ -43,6 +51,6 @@ export const HelloReact = () => {
       <br />
       <button onClick={xCreateManyShapes}>Many creates</button>
       <br />
-    </>
+    </div>
   );
 };

@@ -1,11 +1,10 @@
-import { useShapesStore } from "./suzstand/store";
-import { Shape } from "./type";
+import { useState } from "react";
+import { Shape, ShapeType } from "../type";
 
 const NUM_SHAPE = 10000;
 
-export const HelloZustand = () => {
-  const addShapes = useShapesStore((state) => state.addShapes);
-  const deleteAllShapes = useShapesStore((state) => state.deleteAllShapes);
+export const HelloReact = () => {
+  const [shapes, setShapes] = useState<Shape[]>([]);
 
   const createManyShapes = async () => {
     const temp: Shape[] = [];
@@ -13,17 +12,17 @@ export const HelloZustand = () => {
       temp.push({
         id: i.toString(),
         value: (Math.random() * 100000).toFixed(0),
+        type: ShapeType.A,
       });
     }
-    addShapes(temp);
+    setShapes(temp);
   };
 
   const deleteAll = async () => {
-    deleteAllShapes();
+    setShapes([]);
   };
 
   const getShape = async (id: number) => {
-    const shapes = useShapesStore.getState().shapes;
     console.log(shapes[id]);
   };
 
@@ -35,8 +34,8 @@ export const HelloZustand = () => {
   };
 
   return (
-    <>
-      Zustand <br />
+    <div className="Border">
+      REACT STATE <br />
       <button onClick={createManyShapes}>Create {NUM_SHAPE} shapes</button>
       <br />
       <button onClick={deleteAll}>Delete All</button>
@@ -45,6 +44,6 @@ export const HelloZustand = () => {
       <br />
       <button onClick={xCreateManyShapes}>Many creates</button>
       <br />
-    </>
+    </div>
   );
 };

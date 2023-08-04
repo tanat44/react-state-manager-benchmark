@@ -1,16 +1,11 @@
-import { useDispatch, useStore } from "react-redux";
-import {
-  addShapes,
-  deleteAllShapes,
-  selectShapeById,
-} from "./redux/shapesSlice";
-import { Shape } from "./type";
+import { Shape, ShapeType } from "../type";
+import { useShapesStore } from "../zustand/useShapesStore";
 
 const NUM_SHAPE = 10000;
 
-export const HelloRedux = () => {
-  const dispatch = useDispatch();
-  const store = useStore();
+export const HelloZustand = () => {
+  const addShapes = useShapesStore((state) => state.addShapes);
+  const deleteAllShapes = useShapesStore((state) => state.deleteAllShapes);
 
   const createManyShapes = async () => {
     const temp: Shape[] = [];
@@ -18,17 +13,19 @@ export const HelloRedux = () => {
       temp.push({
         id: i.toString(),
         value: (Math.random() * 100000).toFixed(0),
+        type: ShapeType.A,
       });
     }
-    dispatch(addShapes(temp));
+    addShapes(temp);
   };
 
   const deleteAll = async () => {
-    dispatch(deleteAllShapes());
+    deleteAllShapes();
   };
 
   const getShape = async (id: number) => {
-    console.log(selectShapeById(store.getState(), id.toString()));
+    const shapes = useShapesStore.getState().shapes;
+    console.log(shapes[id]);
   };
 
   const xCreateManyShapes = async () => {
@@ -39,9 +36,8 @@ export const HelloRedux = () => {
   };
 
   return (
-    <>
-      {/* <Counter /> */}
-      Redux <br />
+    <div className="Border">
+      Zustand <br />
       <button onClick={createManyShapes}>Create {NUM_SHAPE} shapes</button>
       <br />
       <button onClick={deleteAll}>Delete All</button>
@@ -50,6 +46,6 @@ export const HelloRedux = () => {
       <br />
       <button onClick={xCreateManyShapes}>Many creates</button>
       <br />
-    </>
+    </div>
   );
 };
