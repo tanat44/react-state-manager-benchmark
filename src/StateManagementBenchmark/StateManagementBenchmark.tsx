@@ -7,6 +7,7 @@ import { HelloRecoilAtom } from "./HelloRecoilAtom";
 import { HelloRecoilFamily } from "./HelloRecoilFamily";
 import { HelloRedux } from "./HelloRedux";
 import { HelloZustand } from "./HelloZustand";
+import { HelloRecoilCallback } from "./HelloRecoilCallback";
 
 export const StateManagementBenchmark = ({ props }: any) => {
   const [mount, setMount] = useState(true);
@@ -22,6 +23,7 @@ export const StateManagementBenchmark = ({ props }: any) => {
           <RecoilRoot>
             <HelloRecoilFamily />
             <HelloRecoilAtom />
+            <HelloRecoilCallback />
           </RecoilRoot>
           <Provider store={store}>
             <HelloRedux />
